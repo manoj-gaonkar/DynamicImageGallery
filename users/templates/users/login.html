@@ -1,0 +1,27 @@
+{% extends 'gallery/base.html' %} {% load tailwind_filters %} 
+{% block content %}
+<body>
+  <div class="flex justify-center items-center  flex-col  w-screen h-screen bg-[rgba(0,0,0,0.9)] ">
+    <div
+      id="pinkbubble"
+      class="fixed h-[30rem] w-[30rem] bg-pink-500 rounded-full left-2/4 top-2/4 translate-x-[-20%] translate-y-[-70%] z-2 filtler blur-3xl opacity-50"
+    ></div>
+    <div
+      id="bluebubble"
+      class="fixed h-[40rem] w-[40rem] bg-blue-500 rounded-full left-[30rem] top-2/4 translate-x-[-10%] translate-y-[-50%] z-2 filter blur-2xl opacity-30"
+    ></div>
+    <div class="'w-1/4 bg-[rgba(255,255,255,0.6)]  p-9 rounded relative z-10">
+        <h1 class="font-bold  mx-auto  text-center text-4xl pb-4">LOG IN</h1>
+    <form action="" method="post" class=''>
+        {% csrf_token %} 
+        <!--form is here-->
+        {{ form|crispy }}
+        <div class="flex justify-between w-full items-center ">
+        <button type="submit" class="px-3 py-2  border border-gray-600 rounded ">LOG IN</button>
+        <a href="signup" class="">don't have an account? create one</a>
+        </div>
+    </form>
+    </div>
+  </div>
+</body>
+{% endblock content %}
