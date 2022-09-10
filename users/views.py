@@ -30,7 +30,7 @@ def signup(request):
 def login(request):
     form = AuthenticationForm()
     if request.method == "POST":
-        form = AuthenticationForm(request.POST)
+        form = AuthenticationForm(data = request.POST)
         username = request.POST['username']
         password = request.POST['password']
         user = authenticate(username=username,password= password)
