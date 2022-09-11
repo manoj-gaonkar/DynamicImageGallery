@@ -5,7 +5,7 @@
  {% block content %}
 <body class="">
   <div
-    class="w-screen h-screen bg-[rgba(0,0,0,.91)] relative overflow-x-hidden"
+    class="w-screen h-screen bg-[rgba(0,0,0,.91)] relative overflow-x-hidden "
   >
     <div
       id="pinkbubble"
@@ -16,16 +16,16 @@
       class="fixed h-[40rem] w-[40rem] bg-blue-500 rounded-full left-[30rem] top-2/4 translate-x-[-10%] translate-y-[-50%] z-2 filter blur-2xl opacity-30"
     ></div>
     {% if request.user.is_authenticated %}
-    <div class="w-full h-2/6 flex justify-center items-center">
+    <div class="w-full h-2/6 flex flex-col justify-center items-center">
+      <p href="" class="text-white px-3 font-mono text-xs mb-8"
+        >Hi {{ request.user.username }}!</p
+      >
       <p
         class="font-thin text-4xl font-mono text-[rgba(255,255,255,0.7)] relative"
       >
         Image Gallery
       </p>
-      <p href="" class="text-white px-3"
-        >Hi {{ request.user.username }}!</
-      >
-      <a href="logout" class="text-white px-3">Logout</a>
+      
     </div>
     {% else %}
     <!-- if user is not authenticated -->
@@ -51,24 +51,25 @@
     {% endif %}
     <!--show images only if user is authenticated-->
     {% if request.user.is_authenticated %}
-    <div class="h-fit w-3/4 mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 relative">
+    <div class="h-fit w-3/4 mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 relative pb-28">
       <!--image list starts here -->
       {% for imgobj in imageobj %}
-      <div class="w-full h-68 bg-gray-50 rounded overflow-hidden">
-        <div class="h-48 bg-red-400 overflow-hidden object-cover object-center relative group">
+      <div class="w-full h-68 bg-gray-50 rounded overflow-hidden transition-all duration-500">
+        <div class="h-48 bg-transparent overflow-hidden object-cover object-center relative group">
           <img
-            src="{{ imgobj.image.url }} "
-            alt=""
-            class="object-center bg-cover object-cover w-full h-full peer"
-            onclick="largeshow('{{ imgobj.image.url }}')"
+          src="{{ imgobj.image.url }} "
+          alt=""
+          class="object-center bg-cover object-cover w-full h-full peer scale-1 group-hover:scale-[1.2]  transition-all duration-500 ease-out"
+          
           />
-          <div class="absolute right-0 bottom-0  opacity-0  group-hover:opacity-100 transition-all duration-500 ease-in-out">
-              <span class="material-symbols-outlined text-white" >
+          <div class="absolute bottom-0 right-0 h-28 transition-all duration-500  ease-in-out bg-gradient-to-t from-[rgba(0,0,0,0.8)] to-[rgba(0,0,0,0)] opacity-0 group-hover:opacity-100 w-full "></div>
+          <div class="absolute right-2 bottom-2  opacity-0  group-hover:opacity-100 transition-all duration-200 ease-in-out">
+              <span class="material-symbols-outlined text-white cursor-pointer opacity-70 hover:opacity-100" onclick="largeshow('{{ imgobj.image.url }}')">
               open_in_new
               </span>
               <span>
-                <a href="#">
-                  <span class="material-symbols-outlined text-white ">
+                <a href="deleteobj/{{ imgobj.id }}" >
+                  <span class="material-symbols-outlined text-white opacity-70 hover:opacity-100">
                   delete
                   </span>
                 </a>
@@ -77,18 +78,17 @@
         </div>
         <!-- for title and description and time -->
         <div class="py-2  px-3 flex justify-around flex-col ">
-          <p class="text-gray-700 text-md mb-4"> {{ imgobj.caption }} </p>
+          <p class="text-gray-700 text-md mb-4"> {{ imgobj.caption }}  </p>
           <p class="text-gray-500 text-xs "> {{ imgobj.date }} </p>
         </div>
       </div>
 
       
       {% endfor %}
+      
     </div>
     {% endif %}
-    <div class= 'flex justify-content items-center w-screen'>
-    <p class=" text-gray-700 mx-auto mt-12 mb-8">Designed and Developed by Manoj Gaonkar</p>
-  </div>
+    
   </div>
 
 
@@ -96,8 +96,13 @@
 
   <!-- icon for adding images -->
   {% if request.user.is_authenticated %}
-  <div class=" hover:animate-spin rounded-full p-3  fixed right-10 bottom-10 cursor-pointer group  " onclick="imageform()">
-    <span class=" material-symbols-outlined bg-blue-400 p-4 rounded-full text-white transition-all duration-300 ease-in-out scale-1 hover:scale-110 hover:bg-blue-600 select-none">
+  <div class="  rounded-full p-3  fixed right-10 bottom-10 cursor-pointer group z-10  flex flex-col" >
+    <a href="logout">
+    <span class="my-5 material-symbols-outlined bg-red-400 p-4 rounded-full text-white transition-all duration-300 ease-in-out scale-1 hover:scale-110 hover:bg-red-600 select-none">
+      logout
+    </span>
+    </a>
+    <span onclick="imageform()" class=" material-symbols-outlined bg-blue-400 p-4 rounded-full text-white transition-all duration-300 ease-in-out scale-1 hover:scale-110 hover:bg-blue-600 select-none">
       add
     </span>
   </div>
@@ -119,7 +124,7 @@
 
     <!-- large image display -->
   <div
-    class="w-screen h-screen bg-transparent rounded fixed left-0 top-0 hidden "
+    class="w-screen h-screen bg-transparent rounded fixed left-0 top-0 hidden z-30"
     id="largeimage"
   >
     <div
@@ -154,7 +159,9 @@
                 </div> -->
   </div>
 
-  
+  <div class= 'absolute bottom-0 left-0 flex justify-content items-center w-full h-fit -z-1'>
+    <p class=" text-gray-700 hover:text-gray-500 transition-all  duration-300 cursor-default  mx-auto mt-12 mb-8 text-xs">Designed and Developed by Manoj Gaonkar</p>
+  </div>
 </body>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
 <script>
@@ -166,9 +173,9 @@
 
   function largeshow(imgurl) {
     console.log("cool");
-    $("#largeimage").fadeIn(100);
-    $("#imageop").attr("src",`${imgurl}`);
     $("#largeimage").addClass("backdrop-blur-sm");
+    $("#imageop").attr("src",`${imgurl}`);
+    $("#largeimage").fadeIn(300);
   }
 
   function cancellargeimage() {

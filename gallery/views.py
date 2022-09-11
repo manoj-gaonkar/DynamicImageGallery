@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from .forms import ImagesForm
 from .models import Images
 from django.contrib.auth.models import User
+import os
 
 def gallery(request):
     form = ImagesForm()
@@ -20,3 +21,11 @@ def gallery(request):
             'imageobj': imageobj,
         }
     return render(request, 'gallery/gallery.html',data)
+
+
+def delete(request,pk):
+    deleteobj = Images.objects.get(id=pk)
+    if len(deleteobj.image) > 0:
+        os.remove(deleteobj.image.path)
+    deleteobj.delete()
+    return redirect('gallery')

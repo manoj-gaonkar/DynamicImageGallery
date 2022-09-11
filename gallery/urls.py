@@ -7,6 +7,7 @@ urlpatterns = [
     path('signup',userviews.signup, name="signup"),
     path('logout',userviews.logout,name='logout'),
     path('login',userviews.login,name="login"),
+    path('deleteobj/<int:pk>',views.delete,name='deleteobj')
     
 ]
 
